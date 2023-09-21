@@ -96,6 +96,35 @@
 			input-disable;
 		};
 	};
+
+	spi_pins: spi_pins {
+		cs {
+			pins = "gpio20";
+			drive-strength = <12>;
+		};
+	};
+};
+
+&gsbi5 {
+	qcom,mode = <GSBI_PROT_SPI>;
+	status = "okay";
+
+	spi@1a280000 {
+		status = "okay";
+
+		pinctrl-0 = <&spi_pins>;
+		pinctrl-names = "default";
+
+		cs-gpios = <&qcom_pinmux 20 GPIO_ACTIVE_HIGH>;
+
+		flash@0 {
+			compatible = "everspin,mr25h256";
+			#address-cells = <1>;
+			#size-cells = <1>;
+			spi-max-frequency = <40000000>;
+			reg = <0>;
+		};
+	};
 };
 
 &nand_controller {
@@ -251,8 +280,7 @@
 	phy-mode = "rgmii";
 	qcom,id = <0>;
 
-	nvmem-cells = <&macaddr_ART_0>;
-	nvmem-cell-names = "mac-address";
+	mtd-mac-address = <&ART 0x0>;
 
 	pinctrl-0 = <&rgmii2_pins>;
 	pinctrl-names = "default";
@@ -268,8 +296,7 @@
 	phy-mode = "sgmii";
 	qcom,id = <1>;
 
-	nvmem-cells = <&macaddr_ART_6>;
-	nvmem-cell-names = "mac-address";
+	mtd-mac-address = <&ART 0x6>;
 
 	fixed-link {
 		speed = <1000>;
@@ -283,10 +310,12 @@
 
 &usb3_0 {
 	status = "okay";
+	clocks = <&gcc USB30_1_MASTER_CLK>;
 };
 
 &usb3_1 {
 	status = "okay";
+	clocks = <&gcc USB30_0_MASTER_CLK>;
 };
 
 &pcie0 {
@@ -302,18 +331,4 @@
 	pinctrl-0 = <&pcie1_pins>;
 	pinctrl-names = "default";
 	max-link-speed = <1>;
-};
-
-&ART {
-	compatible = "nvmem-cells";
-	#address-cells = <1>;
-	#size-cells = <1>;
-
-	macaddr_ART_0: macaddr@0 {
-		reg = <0x0 0x6>;
-	};
-
-	macaddr_ART_6: macaddr@6 {
-		reg = <0x6 0x6>;
-	};
 };

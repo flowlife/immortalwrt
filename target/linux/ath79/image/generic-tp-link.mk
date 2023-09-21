@@ -362,17 +362,6 @@ define Device/tplink_cpe610-v2
 endef
 TARGET_DEVICES += tplink_cpe610-v2
 
-define Device/tplink_cpe710-v1
-  $(Device/tplink-safeloader-uimage)
-  SOC := qca9563
-  IMAGE_SIZE := 15680k
-  DEVICE_MODEL := CPE710
-  DEVICE_VARIANT := v1
-  DEVICE_PACKAGES := kmod-ath10k-ct ath10k-firmware-qca9888-ct
-  TPLINK_BOARD_ID := CPE710V1
-endef
-TARGET_DEVICES += tplink_cpe710-v1
-
 define Device/tplink-eap2x5
   $(Device/tplink-safeloader)
   LOADER_TYPE := elf
@@ -437,18 +426,6 @@ define Device/tplink_eap245-v3
 endef
 TARGET_DEVICES += tplink_eap245-v3
 
-define Device/tplink_deco-m4r-v1
-  $(Device/tplink-safeloader-uimage)
-  SOC := qca9563
-  IMAGE_SIZE := 13824k
-  DEVICE_MODEL := Deco M4R
-  DEVICE_VARIANT := v1
-  DEVICE_PACKAGES := kmod-ath10k-ct ath10k-firmware-qca9888-ct
-  SUPPORTED_DEVICES += deco-m4r-v1
-  TPLINK_BOARD_ID := DECO-M4R-V1
-endef
-TARGET_DEVICES += tplink_deco-m4r-v1
-
 define Device/tplink_re350k-v1
   $(Device/tplink-safeloader)
   SOC := qca9558
@@ -509,18 +486,6 @@ define Device/tplink_re450-v3
 endef
 TARGET_DEVICES += tplink_re450-v3
 
-define Device/tplink_re455-v1
-  $(Device/tplink-safeloader)
-  SOC := qca9563
-  IMAGE_SIZE := 7808k
-  DEVICE_MODEL := RE455
-  DEVICE_VARIANT := v1
-  DEVICE_PACKAGES := kmod-ath10k-ct-smallbuffers ath10k-firmware-qca988x-ct
-  TPLINK_BOARD_ID := RE455-V1
-  LOADER_TYPE := elf
-endef
-TARGET_DEVICES += tplink_re455-v1
-
 define Device/tplink_tl-mr6400-v1
   $(Device/tplink-8mlzma)
   SOC := qca9531
@@ -532,17 +497,6 @@ define Device/tplink_tl-mr6400-v1
   SUPPORTED_DEVICES += tl-mr6400
 endef
 TARGET_DEVICES += tplink_tl-mr6400-v1
-
-define Device/tplink_tl-wa1201-v2
-  $(Device/tplink-safeloader-uimage)
-  SOC := qca9563
-  IMAGE_SIZE := 13184k
-  DEVICE_MODEL := TL-WA1201
-  DEVICE_VARIANT := v2
-  TPLINK_BOARD_ID := TL-WA1201-V2
-  DEVICE_PACKAGES := kmod-ath10k-ct ath10k-firmware-qca9888-ct
-endef
-TARGET_DEVICES += tplink_tl-wa1201-v2
 
 define Device/tplink_tl-wdr3500-v1
   $(Device/tplink-8mlzma)
@@ -633,36 +587,6 @@ define Device/tplink_tl-wpa8630-v1
 endef
 TARGET_DEVICES += tplink_tl-wpa8630-v1
 
-define Device/tplink_tl-wpa8630p-v2
-  $(Device/tplink-safeloader)
-  SOC := qca9563
-  DEVICE_MODEL := TL-WPA8630P
-  IMAGE_SIZE := 6016k
-  DEVICE_PACKAGES := kmod-ath10k-ct ath10k-firmware-qca9888-ct
-endef
-
-define Device/tplink_tl-wpa8630p-v2-int
-  $(Device/tplink_tl-wpa8630p-v2)
-  DEVICE_VARIANT := v2 (Int.)
-  TPLINK_BOARD_ID := TL-WPA8630P-V2-INT
-endef
-TARGET_DEVICES += tplink_tl-wpa8630p-v2-int
-
-define Device/tplink_tl-wpa8630p-v2.0-eu
-  $(Device/tplink_tl-wpa8630p-v2)
-  DEVICE_VARIANT := v2.0 (EU)
-  TPLINK_BOARD_ID := TL-WPA8630P-V2.0-EU
-  SUPPORTED_DEVICES += tplink,tl-wpa8630p-v2-eu
-endef
-TARGET_DEVICES += tplink_tl-wpa8630p-v2.0-eu
-
-define Device/tplink_tl-wpa8630p-v2.1-eu
-  $(Device/tplink_tl-wpa8630p-v2)
-  DEVICE_VARIANT := v2.1 (EU)
-  TPLINK_BOARD_ID := TL-WPA8630P-V2.1-EU
-endef
-TARGET_DEVICES += tplink_tl-wpa8630p-v2.1-eu
-
 define Device/tplink_tl-wr1043nd-v1
   $(Device/tplink-8m)
   SOC := ar9132
@@ -739,7 +663,7 @@ define Device/tplink_tl-wr2543-v1
   DEVICE_PACKAGES := kmod-usb2 kmod-usb-ledtrig-usbport
   TPLINK_HWID := 0x25430001
   IMAGE/sysupgrade.bin := tplink-v1-image sysupgrade -v 3.13.99 | \
-	check-size | append-metadata
+	append-metadata | check-size
   IMAGE/factory.bin := tplink-v1-image factory -v 3.13.99
   SUPPORTED_DEVICES += tl-wr2543n
 endef
@@ -789,15 +713,6 @@ define Device/tplink_tl-wr810n-v2
 endef
 TARGET_DEVICES += tplink_tl-wr810n-v2
 
-define Device/tplink_tl-wr841hp-v3
-  $(Device/tplink-8mlzma)
-  SOC := qca9533
-  DEVICE_MODEL := TL-WR841HP
-  DEVICE_VARIANT := v3
-  TPLINK_HWID := 0x08411003
-endef
-TARGET_DEVICES += tplink_tl-wr841hp-v3
-
 define Device/tplink_tl-wr842n-v1
   $(Device/tplink-8m)
   SOC := ar7241
@@ -844,16 +759,6 @@ define Device/tplink_tl-wr902ac-v1
   SUPPORTED_DEVICES += tl-wr902ac-v1
 endef
 TARGET_DEVICES += tplink_tl-wr902ac-v1
-
-define Device/tplink_tl-wr941hp-v1
-  $(Device/tplink-safeloader)
-  SOC := tp9343
-  DEVICE_MODEL := TL-WR941HP
-  DEVICE_VARIANT := v1
-  TPLINK_BOARD_ID := TL-WR941HP-V1
-  IMAGE_SIZE := 7360k
-endef
-TARGET_DEVICES += tplink_tl-wr941hp-v1
 
 define Device/tplink_wbs210-v1
   $(Device/tplink-safeloader-okli)

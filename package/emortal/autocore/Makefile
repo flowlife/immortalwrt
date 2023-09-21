@@ -1,4 +1,4 @@
-# SPDX-License-Identifier: GPL-2.0-only
+# SPDX-License-Identifier: GPL-3.0-only
 #
 # Copyright (C) 2020 Lean <coolsnowwolf@gmail.com>
 # Copyright (C) 2021 ImmortalWrt.org
@@ -6,12 +6,13 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=autocore
-PKG_FLAGS:=nonshared
+PKG_VERSION:=2
 PKG_RELEASE:=$(COMMITCOUNT)
 
 PKG_CONFIG_DEPENDS:= \
 	CONFIG_TARGET_bcm27xx \
-	CONFIG_TARGET_bcm53xx
+	CONFIG_TARGET_bcm53xx \
+	CONFIG_TARGET_mediatek
 
 include $(INCLUDE_DIR)/package.mk
 include $(INCLUDE_DIR)/target.mk
@@ -21,7 +22,9 @@ define Package/autocore-arm
   MAINTAINER:=CN_SZTL
   DEPENDS:=@(arm||aarch64) \
     +TARGET_bcm27xx:bcm27xx-userland \
-    +TARGET_bcm53xx:nvram
+    +TARGET_bcm53xx:nvram \
+    +TARGET_mediatek:mhz \
+    +ethtool
   VARIANT:=arm
 endef
 
@@ -50,9 +53,9 @@ endef
 define Package/autocore-arm/install
 	$(call Package/autocore/install/Default,$(1))
 
-ifneq ($(filter ipq% %mt7622, $(TARGETID)),)
+
 	$(INSTALL_BIN) ./files/arm/tempinfo $(1)/sbin/
-endif
+
 endef
 
 define Package/autocore-x86/install

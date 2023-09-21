@@ -4,10 +4,9 @@
 
 / {
 	compatible = "ubnt,unifi", "qca,ar7241";
-	model = "Ubiquiti UniFi AP";
+	model = "Ubiquiti UniFi";
 
 	aliases {
-		label-mac-device = &eth0;
 		led-boot = &led_dome_green;
 		led-failsafe = &led_dome_green;
 		led-running = &led_dome_green;
@@ -81,21 +80,6 @@
 	};
 };
 
-&eth0 {
-	nvmem-cells = <&macaddr_art_0>;
-	nvmem-cell-names = "mac-address";
-};
-
 &eth1 {
 	compatible = "syscon", "simple-mfd";
-};
-
-&art {
-	compatible = "nvmem-cells";
-	#address-cells = <1>;
-	#size-cells = <1>;
-
-	macaddr_art_0: macaddr@0 {
-		reg = <0x0 0x6>;
-	};
 };

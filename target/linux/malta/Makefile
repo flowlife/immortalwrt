@@ -8,11 +8,9 @@ BOARD:=malta
 BOARDNAME:=MIPS Malta CoreLV board (qemu)
 SUBTARGETS:=le be le64 be64
 INITRAMFS_EXTRA_FILES:=
-MAINTAINER:=Florian Fainelli <florian@openwrt.org>
 FEATURES:=cpiogz ext4 ramdisk squashfs targz
 
 KERNEL_PATCHVER:=5.4
-KERNEL_TESTING_PATCHVER:=5.10
 
 include $(INCLUDE_DIR)/target.mk
 

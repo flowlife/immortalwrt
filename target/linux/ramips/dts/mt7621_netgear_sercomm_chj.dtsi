@@ -96,8 +96,7 @@
 };
 
 &gmac0 {
-	nvmem-cells = <&macaddr_factory_4>;
-	nvmem-cell-names = "mac-address";
+	mtd-mac-address = <&factory 0x4>;
 };
 
 &switch0 {
@@ -125,9 +124,8 @@
 		port@4 {
 			status = "okay";
 			label = "wan";
-			nvmem-cells = <&macaddr_factory_4>;
-			nvmem-cell-names = "mac-address";
-			mac-address-increment = <2>;
+			mtd-mac-address = <&factory 0x4>;
+			mtd-mac-address-increment = <2>;
 		};
 	};
 };
@@ -153,21 +151,10 @@
 			read-only;
 		};
 
-		partition@1 {
+		partition@100000 {
 			label = "SC PART_MAP";
 			reg = <0x100000 0x100000>;
 			read-only;
-		};
-
-		partition@100000 {
-			label = "BootEnv";
-			reg = <0x100000 0x80000>;
-			read-only;
-		};
-
-		partition@180000 {
-			label = "Factory";
-			reg = <0x180000 0x80000>;
 		};
 
 		partition@200000 {
@@ -178,11 +165,6 @@
 		partition@600000 {
 			label = "ubi";
 			reg = <0x600000 0x2800000>;
-		};
-
-		partition@2 {
-			label = "firmware";
-			reg = <0x200000 0x2c00000>;
 		};
 
 		partition@2e00000 {
@@ -197,26 +179,10 @@
 			read-only;
 		};
 
-		partition@3 {
-			label = "epprom";
-			reg = <0x4600000 0x80000>;
-			read-only;
-		};
-
 		partition@4800000 {
 			label = "reserved1";
 			reg = <0x4800000 0x3800000>;
 			read-only;
 		};
-	};
-};
-
-&factory {
-	compatible = "nvmem-cells";
-	#address-cells = <1>;
-	#size-cells = <1>;
-
-	macaddr_factory_4: macaddr@4 {
-		reg = <0x4 0x6>;
 	};
 };

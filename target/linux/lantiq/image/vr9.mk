@@ -120,17 +120,6 @@ define Device/avm_fritz3370-rev2-micron
 endef
 TARGET_DEVICES += avm_fritz3370-rev2-micron
 
-define Device/avm_fritz3390
-  $(Device/AVM)
-  $(Device/NAND)
-  DEVICE_MODEL := FRITZ!Box 3390
-  KERNEL_SIZE := 4096k
-  IMAGE_SIZE := 49152k
-  DEVICE_PACKAGES := kmod-ath9k kmod-owl-loader wpad-basic-openssl \
-	kmod-usb-dwc2 fritz-tffs
-endef
-TARGET_DEVICES += avm_fritz3390
-
 define Device/avm_fritz7360sl
   $(Device/AVM)
   DEVICE_MODEL := FRITZ!Box 7360 SL
@@ -182,7 +171,7 @@ TARGET_DEVICES += avm_fritz7430
 
 define Device/bt_homehub-v5a
   $(Device/NAND)
-  DEVICE_VENDOR := British Telecom (BT)
+  DEVICE_VENDOR := British Telecom
   DEVICE_MODEL := Home Hub 5
   DEVICE_VARIANT := Type A
   BOARD_NAME := BTHOMEHUBV5A
@@ -227,7 +216,7 @@ define Device/netgear_dm200
   IMAGE/sysupgrade.bin := append-kernel | \
 	pad-offset 64k 64 | append-uImage-fakehdr filesystem | \
 	pad-offset 64k 64 | append-uImage-fakehdr filesystem | \
-	append-rootfs | pad-rootfs | check-size | append-metadata
+	append-rootfs | pad-rootfs | append-metadata | check-size
   IMAGE/factory.img := $$(IMAGE/sysupgrade.bin) | netgear-dni
   IMAGE_SIZE := 7872k
   NETGEAR_BOARD_ID := DM200

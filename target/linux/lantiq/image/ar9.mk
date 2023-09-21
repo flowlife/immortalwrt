@@ -1,9 +1,8 @@
 define Device/avm_fritz7312
-  $(Device/AVM_preloader)
+  $(Device/AVM)
   DEVICE_MODEL := FRITZ!Box 7312
   SOC := ar9
   IMAGE_SIZE := 15744k
-  LOADER_FLASH_OFFS := 0x31000
   DEVICE_PACKAGES := kmod-ath9k kmod-owl-loader wpad-basic-openssl \
 	kmod-ltq-adsl-ar9-mei kmod-ltq-adsl-ar9 \
 	kmod-ltq-adsl-ar9-fw-b kmod-ltq-atm-ar9 \
@@ -13,13 +12,12 @@ endef
 TARGET_DEVICES += avm_fritz7312
 
 define Device/avm_fritz7320
-  $(Device/AVM_preloader)
+  $(Device/AVM)
   DEVICE_MODEL := FRITZ!Box 7320
   DEVICE_ALT0_VENDOR := 1&1
   DEVICE_ALT0_MODEL := HomeServer
   SOC := ar9
   IMAGE_SIZE := 15744k
-  LOADER_FLASH_OFFS := 0x31000
   DEVICE_PACKAGES := kmod-ath9k kmod-owl-loader wpad-basic-openssl \
 	kmod-ltq-adsl-ar9-mei kmod-ltq-adsl-ar9 \
 	kmod-ltq-adsl-ar9-fw-b kmod-ltq-atm-ar9 \
@@ -31,7 +29,7 @@ TARGET_DEVICES += avm_fritz7320
 
 define Device/bt_homehub-v3a
   $(Device/NAND)
-  DEVICE_VENDOR := British Telecom (BT)
+  DEVICE_VENDOR := British Telecom
   DEVICE_MODEL := Home Hub 3
   DEVICE_VARIANT := Type A
   BOARD_NAME := BTHOMEHUBV3A
@@ -92,10 +90,10 @@ define Device/netgear_dgn3500
 	factory-na.img factory.img
   IMAGE/sysupgrade-na.bin := \
 	append-kernel | append-rootfs | dgn3500-sercom-footer 0x0 "NA" | \
-	pad-rootfs | check-size | append-metadata
+	pad-rootfs | append-metadata | check-size
   IMAGE/sysupgrade.bin := \
 	append-kernel | append-rootfs | dgn3500-sercom-footer 0x0 "WW" | \
-	pad-rootfs | check-size | append-metadata
+	pad-rootfs | append-metadata | check-size
   IMAGE/factory-na.img := \
 	pad-extra $(DGN3500_KERNEL_OFFSET_DEC) | append-kernel | append-rootfs | \
 	dgn3500-sercom-footer $(DGN3500_KERNEL_OFFSET_HEX) "NA" | pad-rootfs | \
@@ -121,7 +119,7 @@ define Device/netgear_dgn3500b
   IMAGES += factory.img
   IMAGE/sysupgrade.bin := \
 	append-kernel | append-rootfs | dgn3500-sercom-footer 0x0 "DE" | \
-	pad-rootfs | check-size | append-metadata
+	pad-rootfs | append-metadata | check-size
   IMAGE/factory.img := \
 	pad-extra $(DGN3500_KERNEL_OFFSET_DEC) | append-kernel | append-rootfs | \
 	dgn3500-sercom-footer $(DGN3500_KERNEL_OFFSET_HEX) "DE" | pad-rootfs | \

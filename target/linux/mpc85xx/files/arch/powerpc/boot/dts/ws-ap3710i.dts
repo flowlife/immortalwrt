@@ -22,24 +22,24 @@
 
 		wifi1 {
 			gpios = <&gpio0 3 0>;
-			label = "green:radio1";
+			label = "ws-ap3710i:green:radio1";
 			linux,default-trigger = "phy0tpt";
 		};
 
 		wifi2 {
 			gpios = <&gpio0 4 0>;
-			label = "green:radio2";
+			label = "ws-ap3710i:green:radio2";
 			linux,default-trigger = "phy1tpt";
 		};
 
 		led_power_green: power_green {
 			gpios = <&gpio0 8 0>;
-			label = "green:power";
+			label = "ws-ap3710i:green:power";
 		};
 
 		led_power_red: power_red {
 			gpios = <&gpio0 9 0>;
-			label = "red:power";
+			label = "ws-ap3710i:red:power";
 		};
 	};
 
@@ -170,3 +170,16 @@
 
 };
 /include/ "fsl/p1020si-post.dtsi"
+
+/*
+ * For the OpenWrt 22.03 release, since Linux 5.10.138 now uses
+ * aliases to determine PCI domain numbers, drop aliases so as not to
+ * change the sysfs path of our wireless netdevs.
+ */
+
+/ {
+	aliases {
+		/delete-property/ pci0;
+		/delete-property/ pci1;
+	};
+};

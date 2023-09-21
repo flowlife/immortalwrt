@@ -14,7 +14,8 @@ DEFAULT_PACKAGES+=kmod-leds-gpio \
 	ltq-vdsl-app \
 	dsl-vrx200-firmware-xdsl-a \
 	dsl-vrx200-firmware-xdsl-b-patch \
-	ppp-mod-pppoa
+	ppp-mod-pppoa \
+	swconfig
 
 define Target/Description
 	Lantiq XRX200

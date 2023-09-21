@@ -11,7 +11,6 @@ FEATURES:=ramdisk squashfs
 SUBTARGETS:=generic
 
 KERNEL_PATCHVER:=5.4
-KERNEL_TESTING_PATCHVER:=5.10
 
 define Target/Description
 	Build firmware images for Realtek RTL83xx based boards.

@@ -128,7 +128,7 @@ define Device/ubnt-unifi-jffs2
   KERNEL := kernel-bin | append-dtb | lzma | uImage lzma | jffs2 kernel0
   IMAGES := sysupgrade.bin factory.bin
   IMAGE/sysupgrade.bin := append-kernel | pad-to $$$$(KERNEL_SIZE) | append-rootfs |\
-	pad-rootfs | check-size | append-metadata
+	pad-rootfs | append-metadata | check-size
   IMAGE/factory.bin := $$(IMAGE/sysupgrade.bin) | mkubntimage2
 endef
 
@@ -245,23 +245,6 @@ define Device/ubnt_nanobeam-ac-gen2
 endef
 TARGET_DEVICES += ubnt_nanobeam-ac-gen2
 
-define Device/ubnt_nanobeam-ac-xc
-  $(Device/ubnt-xc)
-  SOC := qca9558
-  DEVICE_MODEL := NanoBeam AC
-  DEVICE_VARIANT := Gen1 (XC)
-  DEVICE_PACKAGES += kmod-ath10k-ct ath10k-firmware-qca988x-ct rssileds
-endef
-TARGET_DEVICES += ubnt_nanobeam-ac-xc
-
-define Device/ubnt_nanobeam-m5-xw
-  $(Device/ubnt-xw)
-  DEVICE_MODEL := NanoBeam M5
-  DEVICE_PACKAGES += rssileds
-  SUPPORTED_DEVICES += loco-m-xw
-endef
-TARGET_DEVICES += ubnt_nanobeam-m5-xw
-
 define Device/ubnt_nanobridge-m
   $(Device/ubnt-xm)
   SOC := ar7241
@@ -345,22 +328,6 @@ define Device/ubnt_powerbeam-5ac-gen2
 endef
 TARGET_DEVICES += ubnt_powerbeam-5ac-gen2
 
-define Device/ubnt_powerbeam-m2-xw
-  $(Device/ubnt-xw)
-  DEVICE_MODEL := PowerBeam M2
-  DEVICE_PACKAGES += rssileds
-  SUPPORTED_DEVICES += loco-m-xw
-endef
-TARGET_DEVICES += ubnt_powerbeam-m2-xw
-
-define Device/ubnt_powerbeam-m5-xw
-  $(Device/ubnt-xw)
-  DEVICE_MODEL := PowerBeam M5
-  DEVICE_PACKAGES += rssileds
-  SUPPORTED_DEVICES += loco-m-xw
-endef
-TARGET_DEVICES += ubnt_powerbeam-m5-xw
-
 define Device/ubnt_powerbridge-m
   $(Device/ubnt-xm)
   SOC := ar7241
@@ -369,15 +336,6 @@ define Device/ubnt_powerbridge-m
   SUPPORTED_DEVICES += bullet-m
 endef
 TARGET_DEVICES += ubnt_powerbridge-m
-
-define Device/ubnt_rocket-5ac-lite
-  $(Device/ubnt-xc)
-  SOC := qca9558
-  DEVICE_MODEL := Rocket 5AC
-  DEVICE_VARIANT := Lite
-  DEVICE_PACKAGES := kmod-ath10k-ct ath10k-firmware-qca988x-ct
-endef
-TARGET_DEVICES += ubnt_rocket-5ac-lite
 
 define Device/ubnt_rocket-m
   $(Device/ubnt-xm)
@@ -389,7 +347,7 @@ endef
 TARGET_DEVICES += ubnt_rocket-m
 
 define Device/ubnt_routerstation_common
-  DEVICE_PACKAGES := -kmod-ath9k -wpad-basic-openssl -uboot-envtools kmod-usb-ohci \
+  DEVICE_PACKAGES := -kmod-ath9k -wpad-openssl -uboot-envtools kmod-usb-ohci \
 	kmod-usb2 fconfig
   DEVICE_VENDOR := Ubiquiti
   SOC := ar7161
@@ -398,7 +356,7 @@ define Device/ubnt_routerstation_common
   IMAGE/factory.bin := append-rootfs | pad-rootfs | mkubntimage | \
 	check-size
   IMAGE/sysupgrade.bin := append-rootfs | pad-rootfs | combined-image | \
-	check-size | append-metadata
+	append-metadata | check-size
   KERNEL := kernel-bin | append-dtb | lzma | pad-to $$(BLOCKSIZE)
   KERNEL_INITRAMFS := kernel-bin | append-dtb
 endef
@@ -426,7 +384,7 @@ TARGET_DEVICES += ubnt_routerstation-pro
 
 define Device/ubnt_unifi
   $(Device/ubnt-bz)
-  DEVICE_MODEL := UniFi AP
+  DEVICE_MODEL := UniFi
   SUPPORTED_DEVICES += unifi
 endef
 TARGET_DEVICES += ubnt_unifi
@@ -441,7 +399,6 @@ endef
 define Device/ubnt_unifiac-lite
   $(Device/ubnt_unifiac)
   DEVICE_MODEL := UniFi AC Lite
-  DEVICE_PACKAGES += -swconfig
   SUPPORTED_DEVICES += unifiac-lite
 endef
 TARGET_DEVICES += ubnt_unifiac-lite
@@ -449,7 +406,6 @@ TARGET_DEVICES += ubnt_unifiac-lite
 define Device/ubnt_unifiac-lr
   $(Device/ubnt_unifiac)
   DEVICE_MODEL := UniFi AC LR
-  DEVICE_PACKAGES += -swconfig
   SUPPORTED_DEVICES += unifiac-lite ubnt,unifiac-lite
 endef
 TARGET_DEVICES += ubnt_unifiac-lr
@@ -457,7 +413,6 @@ TARGET_DEVICES += ubnt_unifiac-lr
 define Device/ubnt_unifiac-mesh
   $(Device/ubnt_unifiac)
   DEVICE_MODEL := UniFi AC Mesh
-  DEVICE_PACKAGES += -swconfig
   SUPPORTED_DEVICES += unifiac-lite
 endef
 TARGET_DEVICES += ubnt_unifiac-mesh

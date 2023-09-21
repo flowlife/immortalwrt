@@ -67,18 +67,32 @@ KERNEL_FILES_ARCH = \
 	include \
 	*/include \
 	scripts \
-	kernel/asm-offsets.s
+	kernel/asm-offsets.s \
+	kernel/module.lds
 
 KERNEL_FILES_BASE := \
 	.config \
 	Makefile \
 	scripts \
+	tools/objtool \
 	include \
 	Module.symvers \
 	modules.builtin \
 	$(foreach arch,$(KDIR_ARCHES),$(addprefix arch/$(arch)/,$(KERNEL_FILES_ARCH)))
 
 KERNEL_FILES := $(patsubst $(TOPDIR)/%,%,$(wildcard $(addprefix $(LINUX_DIR)/,$(KERNEL_FILES_BASE))))
+
+# The kernel source hosts various userspace utilities sources.
+# These are packaged separately from the kernel and kernel modules.
+# The source has to be included here to be buildable by the SDK.
+#
+USERSPACE_UTILS_FILES := \
+	tools/build \
+	tools/scripts \
+	tools/usb/usbip \
+	tools/spi
+
+USERSPACE_FILES := $(patsubst $(TOPDIR)/%,%,$(wildcard $(addprefix $(LINUX_DIR)/,$(USERSPACE_UTILS_FILES))))
 
 all: compile
 
@@ -98,17 +112,8 @@ $(BIN_DIR)/$(SDK_NAME).tar.xz: clean
 		$(SDK_DIRS) $(KERNEL_FILES) | \
 		$(TAR) -xf - -C $(SDK_BUILD_DIR)
 
-	# Copy usbip sources, this is required for the usbip userspace packages to be buildable by the SDK.
-	$(TAR) -cf - -C $(TOPDIR) $(KDIR_BASE)/tools/usb/usbip/ | \
+	$(TAR) -cf - -C $(TOPDIR) $(USERSPACE_FILES) | \
 		$(TAR) -xf - -C $(SDK_BUILD_DIR)
-
-	# Copy objtool executables.  They are required for building external
-	# modules if "Compile-time stack metadata validation" is enabled.
-	if grep -q '^CONFIG_STACK_VALIDATION=y' $(LINUX_DIR)/.config; then \
-		$(TAR) -cf - -C $(TOPDIR) \
-				`cd $(TOPDIR); find $(KDIR_BASE)/tools/objtool -type f -executable` | \
-			$(TAR) -xf - -C $(SDK_BUILD_DIR); \
-	fi
 
 	(cd $(SDK_BUILD_DIR); find $(STAGING_SUBDIR_HOST)/bin $(STAGING_SUBDIR_HOST)/usr/bin \
 		$(STAGING_SUBDIR_TOOLCHAIN)/bin $(STAGING_SUBDIR_TOOLCHAIN)/*/bin $(STAGING_SUBDIR_TOOLCHAIN)/libexec \
@@ -170,7 +175,8 @@ $(BIN_DIR)/$(SDK_NAME).tar.xz: clean
 	find $(SDK_BUILD_DIR) -name CVS | $(XARGS) rm -rf
 	-make -C $(SDK_BUILD_DIR)/scripts/config clean
 	(cd $(BUILD_DIR); \
-		tar -I 'xz -T0 -7e' -cf $@ $(SDK_NAME); \
+		tar -I '$(STAGING_DIR_HOST)/bin/xz -7e -T$(if $(filter 1,$(NPROC)),2,0)' -cf $@ $(SDK_NAME) \
+		--mtime="$(shell date --date=@$(SOURCE_DATE_EPOCH))"; \
 	)
 
 download:
