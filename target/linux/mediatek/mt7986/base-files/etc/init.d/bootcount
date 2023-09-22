@@ -4,5 +4,4 @@ START=99
 
 boot() {
  	/sbin/smp.sh
-        wifi up
 }
