@@ -8,8 +8,8 @@ include $(INCLUDE_DIR)/kernel.mk
 
 PKG_NAME:=mt_wifi
 
-MT7981_FW_DIR := mt7981-fw-20230306
-MT7986_FW_DIR := wax220-gpl
+MT7981_FW_DIR := tp-link-xdr3030
+MT7986_FW_DIR := tp-link-xdr6088
 
 ifeq ($(CONFIG_MTK_CHIP_MT7981),y)
 PKG_SUFFIX:=mt7981
