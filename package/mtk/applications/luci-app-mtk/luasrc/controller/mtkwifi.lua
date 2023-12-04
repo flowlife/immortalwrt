@@ -1416,3 +1416,4 @@ function reset_to_defaults(devname)
     mtkwifi.__run_in_child_env(exec_reset_to_defaults_cmd, devname)
     luci.http.redirect(luci.dispatcher.build_url("admin", "network", "wifi", "loading",mtkwifi.get_referer_url()))
 end
+

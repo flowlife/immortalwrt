@@ -477,4 +477,3 @@ void getRate(HTTRANSMIT_SETTING_FIX HTSetting, ULONG *fLastTxRxRate)
 	*fLastTxRxRate = (ULONG)value;
 	return;
 }
-
