@@ -36,7 +36,7 @@
 		label = "ubi";
 		reg = <0x2800000 0x4e00000>;
 	};
-
+	
 	partition@7600000 {
 		label = "KF";
 		reg = <0x7600000 0x40000>;

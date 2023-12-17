@@ -48,7 +48,6 @@
 			partition@580000 {
 				label = "crash";
 				reg = <0x580000 0x40000>;
-				read-only;
 			};
 
 			partition@5c0000 {
