@@ -46,6 +46,6 @@ config WARP_WO_EMBEDDED_LOAD
 
 config WARP_NEW_FW
 	bool "Use new warp firmware"
-	default n
+	default y
 endif
 
