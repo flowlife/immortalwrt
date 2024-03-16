@@ -15,7 +15,7 @@ elif grep -q "bcm53xx" "/etc/openwrt_release"; then
 elif grep -q "mvebu" "/etc/openwrt_release"; then
 	cpu_freq="$(grep "BogoMIPS" "/proc/cpuinfo" | sed -n "1p" | awk -F ': ' '{print $2}')MHz"
 elif grep -q "mediatek" "/etc/openwrt_release"; then
-	cpu_freq="$(mhz | awk -F 'cpu_MHz=' '{printf("%.fMHz",$2)}')"
+	cpu_freq="" ;;
 elif grep -q "x86" "/etc/openwrt_release"; then
 	cpu_freq="$(grep "MHz" "/proc/cpuinfo" | head -n1 | awk -F ': ' '{print $2}')MHz"
 elif [ -e "/sys/devices/system/cpu/cpufreq/policy0/cpuinfo_cur_freq" ]; then
@@ -39,7 +39,7 @@ fi
 
 if [ -z "${cpu_freq}" ] && [ -z "${cpu_temp}" ]; then
 	echo -n "${cpu_arch} x ${cpu_cores}"
-elif [ -z "${cpu_temp}" ] || grep -Eq "ipq|mediatek" "/etc/openwrt_release"; then
+elif [ -z "${cpu_temp}" ] || grep -Eq "ipq" "/etc/openwrt_release"; then
 	echo -n "${cpu_arch} x ${cpu_cores} (${cpu_freq})"
 elif [ -z "${cpu_freq}" ]; then
 	echo -n "${cpu_arch} x ${cpu_cores} (${cpu_temp})"
